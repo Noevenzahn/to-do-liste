@@ -4,9 +4,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../components/LogoutButton";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.scss";
-import Login from "./Login";
-import Todo from "./Todo";
+import Login from "./pages/Login";
+import Todo from "./pages/Todo";
 
 function App() {
   const [user, setUser] = useState(null);

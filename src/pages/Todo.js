@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./App.scss";
-import { db } from "./firebase";
+import { db } from "../firebase";
 import {
   collection,
   query,
@@ -15,7 +14,7 @@ import {
   where,
 } from "firebase/firestore";
 
-import Nav from "./Nav";
+import Nav from "../components/Nav";
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
@@ -138,11 +137,11 @@ export default function Todo({ user }) {
                   <p>{todo}</p>
                   <div className="box__buttons">
                     <span className="date">{date}</span>
-                    <button onClick={() => editItem(id)}>edit</button>
+                    <button onClick={() => editItem(id)}>e</button>
                     <button
                       className="button--delete"
                       onClick={() => remove(id)}>
-                      remove
+                      r
                     </button>
                   </div>
                 </div>
