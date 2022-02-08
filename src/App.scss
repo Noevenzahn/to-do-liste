@@ -1,3 +1,24 @@
+.column {
+  display: flex;
+  flex-direction: column;
+}
 .doneState {
   text-decoration: line-through;
+}
+.box {
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: hsl(240, 15%, 20%);
+}
+button {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 10px;
+  padding: 7px 20px 8px 20px;
+  background-color: hsl(240, 15%, 35%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
