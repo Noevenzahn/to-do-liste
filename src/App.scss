@@ -1,24 +1,109 @@
+nav {
+  display: flex;
+  justify-content: end;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 30px;
+  background-color: hsl(240, 15%, 20%);
+  box-sizing: border-box;
+}
+main {
+  margin-top: 60px;
+}
 .column {
   display: flex;
   flex-direction: column;
 }
-.doneState {
-  text-decoration: line-through;
-}
 .box {
+  max-width: 750px;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
-  background-color: hsl(240, 15%, 20%);
+  background-color: hsl(240, 18%, 15%);
+  box-sizing: border-box;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: hsl(240, 18%, 20%);
+  }
+}
+.box--todo {
+  padding: 10px 0 10px 10px;
+  display: flex;
+  align-items: center;
+}
+.box__buttons {
+  margin-left: auto;
+}
+.date {
+  margin-right: 20px;
+  font-weight: 700;
+  color: hsl(240, 15%, 35%);
+}
+.doneState {
+  .button--done {
+    background-color: hsl(240, 15%, 35%);
+    outline: 3px solid hsl(240, 15%, 35%);
+  }
+  p {
+    text-decoration: line-through;
+    color: hsl(240, 15%, 35%);
+  }
+}
+form {
+  display: grid;
+}
+input {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 10px;
+  padding: 7px 20px 9px 20px;
+  background-color: hsl(240, 15%, 25%);
+  border: none;
+  border-radius: 10px;
+}
+.input__group {
+  display: grid;
+  grid-auto-flow: column;
+
+  input:nth-of-type(2) {
+    margin-left: 15px;
+  }
 }
 button {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 500;
   color: #fff;
-  margin-right: 10px;
-  padding: 7px 20px 8px 20px;
+  margin-right: 15px;
+  padding: 7px 20px 9px 20px;
   background-color: hsl(240, 15%, 35%);
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: hsl(240, 15%, 30%);
+  }
+}
+.button--delete {
+  background-color: hsl(240, 15%, 25%);
+
+  &:hover {
+    background-color: hsl(340, 40%, 25%);
+  }
+}
+.button--done {
+  padding: 0;
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  outline: 3px solid hsl(240, 15%, 35%);
+  border: 6px solid hsl(240, 18%, 15%);
+
+  &:hover {
+    background-color: hsl(240, 15%, 35%);
+  }
 }
