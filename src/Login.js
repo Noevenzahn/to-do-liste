@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
-  signOut,
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
-export default function Login({ user, setUser }) {
+import LogoutButton from "./LogoutButton";
+
+export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +18,6 @@ export default function Login({ user, setUser }) {
       .then((cred) => {
         console.log("user created: ", cred.user);
         console.log(auth.currentUser);
-        // setUser(auth.currentUser);
         setEmail("");
         setPassword("");
       })
@@ -31,22 +31,7 @@ export default function Login({ user, setUser }) {
       .then((cred) => {
         console.log("user logged in: ", cred.user);
         console.log(auth.currentUser);
-        // setUser(auth.currentUser);
 
-        setEmail("");
-        setPassword("");
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
-  const logout = (e) => {
-    e.preventDefault();
-    signOut(auth)
-      .then(() => {
-        console.log("user logged out");
-        console.log(auth.currentUser);
-        // setUser(auth.currentUser);
         setEmail("");
         setPassword("");
       })
@@ -57,8 +42,7 @@ export default function Login({ user, setUser }) {
   useEffect(() => {
     // Listener:
     onAuthStateChanged(auth, (user) => {
-      // console.log("user Status changed: ", user);
-      console.log("user Status changed: ", user.uid);
+      console.log("user Status changed: ", user?.uid);
       setUser(user);
     });
   }, []);
@@ -102,8 +86,7 @@ export default function Login({ user, setUser }) {
           />
           <button onClick={login}>Login</button>
         </form>
-        <h3>Logout</h3>
-        <button onClick={logout}>Logout</button>
+        <LogoutButton />
       </div>
     </>
   );
