@@ -1,65 +1,93 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
+import { db } from "./firebase.js";
+import {
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  addDoc,
+  setDoc,
+  deleteDoc,
+  updateDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
-const getLocalStorage = () => {
-  const list = localStorage.getItem("list");
-  if (!list) return [];
-  return JSON.parse(localStorage.getItem("list"));
-};
+const q = query(collection(db, "todos"), orderBy("timestamp", "desc"));
 
 function App() {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  const [list, setList] = useState(getLocalStorage());
+  const [list, setList] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState("");
+  const CollectionRef = collection(db, "todos");
 
   useEffect(() => {
-    localStorage.setItem("list", JSON.stringify(list));
-  }, [list]);
+    // snapshot ist ein listener
+    onSnapshot(q, (snapshot) => {
+      setList(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          item: doc.data(),
+        }))
+      );
+    });
+  }, []);
 
   const submit = (e) => {
     e.preventDefault();
     if (!name) return;
     if (name && editMode) {
-      setList(
-        list.map((item) => {
-          if (item.id === editId) return { ...item, name };
-          return item;
-        })
+      const docRef = doc(db, "todos", editId);
+      setDoc(
+        docRef,
+        {
+          todo: name,
+          date,
+        },
+        { merge: true }
       );
       setEditMode(false);
       setName("");
       setEditId("");
     } else {
-      const newItem = {
-        name,
-        date,
+      addDoc(CollectionRef, {
+        todo: name,
+        date: date,
         done: false,
-        id: new Date().getTime().toString(),
-      };
-      setList([...list, newItem]);
+        timestamp: serverTimestamp(),
+      });
       setName("");
     }
   };
-  const remove = (id) => {
-    setList(list.filter((item) => item.id !== id));
+  const remove = async (id) => {
+    const todosDoc = doc(db, "todos", id);
+    await deleteDoc(todosDoc);
   };
   const removeAll = (e) => {
     e.preventDefault();
+    list.forEach((item) => {
+      const docRef = doc(db, "todos", item.id);
+      deleteDoc(docRef);
+    });
     setList([]);
   };
-  const markAsDone = (id) => {
-    const item = list.find((item) => item.id === id);
-    item.done = !item.done;
-    setList([...list]); // The correct way to update arrays in react state is to copy the array elements into a new array reference
+  const markAsDone = async (id) => {
+    const index = list.findIndex((item) => item.id === id);
+    let done = !list[index].item.done;
+    const docRef = doc(db, "todos", id);
+    await updateDoc(docRef, {
+      done: done,
+    });
   };
   const editItem = (id) => {
-    const item = list.find((item) => item.id === id);
+    const index = list.findIndex((item) => item.id === id);
     setEditMode(true);
     setEditId(id);
-    setName(item.name);
-    setDate(item.date);
+    setName(list[index].item.todo);
+    setDate(list[index].item.date);
   };
 
   return (
@@ -84,12 +112,12 @@ function App() {
       </div>
       <div>
         {list.map((item) => {
-          const { name, id, done, date } = item;
-
+          const { id } = item;
+          const { done, todo, date } = item.item;
           return (
             <div key={id}>
-              <p style={done ? { textDecoration: "line-through" } : {}}>
-                {name} / {date}
+              <p className={done ? "doneState" : ""}>
+                {todo} / {date}
               </p>
               <button onClick={() => markAsDone(id)}>done</button>
               <button onClick={() => editItem(id)}>edit</button>
