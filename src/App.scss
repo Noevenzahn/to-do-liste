@@ -1,6 +1,7 @@
 nav {
   display: flex;
   justify-content: end;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -9,15 +10,50 @@ nav {
   background-color: hsl(240, 15%, 20%);
   box-sizing: border-box;
 }
+.login__form {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: hsl(240, 18%, 15%);
+  box-sizing: border-box;
+  p {
+    font-size: 27px;
+    font-weight: 700;
+    margin: 15px 0 25px 0;
+  }
+  button {
+    margin: 20px 0;
+  }
+  label {
+    margin: 5px 0 7px 3px;
+    font-weight: 500;
+    color: hsl(240, 15%, 55%);
+  }
+  .signup {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    background-color: transparent;
+    color: hsl(240, 15%, 55%);
+    text-decoration: underline;
+    transition: color 200ms ease-in-out;
+
+    &:hover {
+      color: hsl(240, 15%, 35%);
+    }
+  }
+}
 main {
   margin-top: 60px;
+  max-width: 650px;
 }
 .column {
   display: flex;
   flex-direction: column;
 }
 .box {
-  max-width: 750px;
+  width: 100%;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
@@ -31,8 +67,15 @@ main {
 }
 .box--todo {
   padding: 10px 0 10px 10px;
-  display: flex;
+  display: grid;
   align-items: center;
+
+  p {
+    max-width: 50%;
+  }
+}
+.todo__group {
+  display: flex;
 }
 .box__buttons {
   margin-left: auto;
@@ -40,6 +83,11 @@ main {
 .date {
   margin-right: 20px;
   font-weight: 700;
+  color: hsl(240, 15%, 35%);
+}
+.shared {
+  margin: 5px 0;
+  font-weight: 500;
   color: hsl(240, 15%, 35%);
 }
 .doneState {
@@ -88,12 +136,36 @@ button {
     background-color: hsl(240, 15%, 30%);
   }
 }
+.button--edit {
+  margin-right: 10px;
+  height: 40px;
+  width: 40px;
+  padding: 0;
+}
+.dropdown {
+  display: none;
+}
 .button--delete {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  padding: 0;
   background-color: hsl(240, 15%, 25%);
 
   &:hover {
     background-color: hsl(340, 40%, 25%);
   }
+  // &::after {
+  //   display: block;
+  //   position: absolute;
+  //   top: 7px;
+  //   left: 7px;
+  //   content: "";
+  //   background-color: red;
+
+  //   width: 25px;
+  //   height: 25px;
+  // }
 }
 .button--done {
   padding: 0;
