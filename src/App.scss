@@ -66,7 +66,7 @@ main {
   }
 }
 .box--todo {
-  padding: 10px 0 10px 10px;
+  padding: 10px 0 10px 15px;
   display: grid;
   align-items: center;
 
@@ -76,8 +76,10 @@ main {
 }
 .todo__group {
   display: flex;
+  align-items: center;
 }
 .box__buttons {
+  position: relative;
   margin-left: auto;
 }
 .date {
@@ -143,7 +145,23 @@ button {
   padding: 0;
 }
 .dropdown {
-  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: hsl(240, 18%, 20%);
+  box-sizing: border-box;
+
+  input {
+    margin: 0 10px 0 0;
+  }
+  button {
+    margin: 0;
+  }
 }
 .button--delete {
   position: relative;

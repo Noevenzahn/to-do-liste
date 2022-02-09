@@ -4,7 +4,8 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { db, auth } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
@@ -17,6 +18,11 @@ export default function Login({ setUser }) {
       .then((cred) => {
         console.log("user created: ", cred.user);
         console.log(auth.currentUser);
+        const CollectionRef = collection(db, "users");
+        addDoc(CollectionRef, {
+          uid: cred.user.uid,
+          email: cred.user.email,
+        });
         setEmail("");
         setPassword("");
       })
@@ -37,6 +43,7 @@ export default function Login({ setUser }) {
       .catch((err) => {
         console.log(err.message);
       });
+    //update user data in Firestore if it changed?
   };
   useEffect(() => {
     // Listener:
@@ -94,7 +101,7 @@ export default function Login({ setUser }) {
                   className="signup"
                   onClick={(e) => {
                     e.preventDefault();
-                    setRegisteredUser(false);
+                    setRegisteredUser((state) => !state);
                     console.log(registeredUser);
                   }}>
                   Sign Up

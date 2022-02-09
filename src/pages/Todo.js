@@ -7,7 +7,6 @@ import {
   onSnapshot,
   doc,
   addDoc,
-  setDoc,
   deleteDoc,
   updateDoc,
   serverTimestamp,
@@ -15,13 +14,18 @@ import {
 } from "firebase/firestore";
 
 import Nav from "../components/Nav";
+import Dropdown from "../components/Dropdown";
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [list, setList] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState("");
+  const [assignNewUserMail, setAssignNewUserMail] = useState("");
+  const [userExists, setUserExists] = useState(false);
+
   const CollectionRef = collection(db, "todos");
 
   const q = query(
@@ -29,11 +33,35 @@ export default function Todo({ user }) {
     where("owner", "==", user.uid),
     orderBy("timestamp", "desc")
   );
+  const q2 = query(
+    collection(db, "todos"),
+    where("assignedTo", "==", user.email),
+    orderBy("timestamp", "desc")
+  );
+  const q3 = query(collection(db, "users"));
 
   useEffect(() => {
     // snapshot ist ein listener
+    let owned;
+    let assigned;
     onSnapshot(q, (snapshot) => {
-      setList(
+      owned = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        item: doc.data(),
+      }));
+      onSnapshot(q2, (snapshot) => {
+        assigned = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          item: doc.data(),
+        }));
+        let all = owned.concat(assigned);
+        const set = new Set(all);
+        all = Array.from(set);
+        setList(all);
+      });
+    });
+    onSnapshot(q3, (snapshot) => {
+      setAllUsers(
         snapshot.docs.map((doc) => ({
           id: doc.id,
           item: doc.data(),
@@ -64,6 +92,7 @@ export default function Todo({ user }) {
         timestamp: serverTimestamp(),
       });
       setName("");
+      setDate("");
       console.log("add doc");
     }
   };
@@ -96,11 +125,50 @@ export default function Todo({ user }) {
     setName(list[index].item.todo);
     setDate(list[index].item.date);
   };
+  const addUser = async (assignNewUserMail, id) => {
+    const assignUser = async () => {
+      const docRef = doc(db, "todos", id);
+      await updateDoc(docRef, {
+        assignedTo: assignNewUserMail,
+        ownerEmail: user.email,
+      });
+      console.log("addUser: " + assignNewUserMail);
+      setUserExists(false);
+    };
+    allUsers.forEach((item) => {
+      // console.log(item);
+      // console.log(item.item.email);
+      // console.log(item.item.email === assignNewUserMail);
+
+      if (
+        item.item.email === assignNewUserMail &&
+        assignNewUserMail !== user.email
+      ) {
+        assignUser();
+      } else if (assignNewUserMail === user.email) {
+        console.log(assignNewUserMail + " is your account");
+        return;
+      } else {
+        console.log(assignNewUserMail + " doesn't exist");
+      }
+    });
+  };
+  //   if (userExists) {
+  //     const docRef = doc(db, "todos", id);
+  //     await updateDoc(docRef, {
+  //       assignedTo: assignNewUserMail,
+  //     });
+  //     console.log("addUser: " + assignNewUserMail);
+  //     setUserExists(false);
+  //   } else {
+  //     console.log(assignNewUserMail + " doesn't exist");
+  //   }
+  // };
 
   return (
     <>
       <div className="App">
-        <Nav />
+        <Nav user={user} />
         <main>
           <form className="box">
             <div className="input__group">
@@ -126,24 +194,44 @@ export default function Todo({ user }) {
           <div>
             {list.map((item) => {
               const { id } = item;
-              const { done, todo, date } = item.item;
+              const { done, todo, date, owner, ownerEmail, assignedTo } =
+                item.item;
               return (
                 <div
                   className={done ? "doneState box box--todo" : "box box--todo"}
                   key={id}>
-                  <button
-                    className="button--done"
-                    onClick={() => markAsDone(id)}></button>
-                  <p>{todo}</p>
-                  <div className="box__buttons">
-                    <span className="date">{date}</span>
-                    <button onClick={() => editItem(id)}>e</button>
+                  <div className="todo__group">
                     <button
-                      className="button--delete"
-                      onClick={() => remove(id)}>
-                      r
-                    </button>
+                      className="button--done"
+                      onClick={() => markAsDone(id)}></button>
+                    <p>{todo}</p>
+                    <div className="box__buttons">
+                      <span className="date">{date}</span>
+                      <Dropdown
+                        user={user}
+                        item={item}
+                        id={id}
+                        addUser={addUser}
+                        editItem={editItem}
+                        setAssignNewUserMail={setAssignNewUserMail}
+                        assignNewUserMail={assignNewUserMail}
+                      />
+                      <button
+                        className="button--delete"
+                        onClick={() => remove(id)}>
+                        r
+                      </button>
+                    </div>
                   </div>
+                  {assignedTo ? (
+                    user.uid === owner ? (
+                      <span className="shared">shared with: {assignedTo}</span>
+                    ) : (
+                      <span className="shared">shared from: {ownerEmail}</span>
+                    )
+                  ) : (
+                    ""
+                  )}
                 </div>
               );
             })}
