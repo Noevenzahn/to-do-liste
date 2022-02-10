@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { db, auth } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
@@ -16,10 +16,8 @@ export default function Login({ setUser }) {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-        console.log("user created: ", cred.user);
-        console.log(auth.currentUser);
-        const CollectionRef = collection(db, "users");
-        addDoc(CollectionRef, {
+        // console.log("user created: ", cred.user);;
+        setDoc(doc(db, "users", cred.user.uid), {
           uid: cred.user.uid,
           email: cred.user.email,
         });
@@ -34,8 +32,7 @@ export default function Login({ setUser }) {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-        console.log("user logged in: ", cred.user);
-        console.log(auth.currentUser);
+        // console.log("user logged in: ", cred.user);
 
         setEmail("");
         setPassword("");

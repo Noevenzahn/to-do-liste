@@ -11,6 +11,7 @@ import {
   updateDoc,
   serverTimestamp,
   where,
+  deleteField,
 } from "firebase/firestore";
 
 import Nav from "../components/Nav";
@@ -24,7 +25,7 @@ export default function Todo({ user }) {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState("");
   const [assignNewUserMail, setAssignNewUserMail] = useState("");
-  const [userExists, setUserExists] = useState(false);
+  const [userExists, setUserExists] = useState();
 
   const CollectionRef = collection(db, "todos");
 
@@ -35,7 +36,7 @@ export default function Todo({ user }) {
   );
   const q2 = query(
     collection(db, "todos"),
-    where("assignedTo", "==", user.email),
+    where("assignedTo", "==", user.uid),
     orderBy("timestamp", "desc")
   );
   const q3 = query(collection(db, "users"));
@@ -126,44 +127,41 @@ export default function Todo({ user }) {
     setDate(list[index].item.date);
   };
   const addUser = async (assignNewUserMail, id) => {
-    const assignUser = async () => {
+    const assignUser = async (newUserUid) => {
       const docRef = doc(db, "todos", id);
       await updateDoc(docRef, {
-        assignedTo: assignNewUserMail,
+        assignedTo: newUserUid,
         ownerEmail: user.email,
       });
       console.log("addUser: " + assignNewUserMail);
-      setUserExists(false);
+      setUserExists(true);
+      console.log(userExists);
     };
     allUsers.forEach((item) => {
-      // console.log(item);
-      // console.log(item.item.email);
-      // console.log(item.item.email === assignNewUserMail);
-
       if (
         item.item.email === assignNewUserMail &&
         assignNewUserMail !== user.email
       ) {
-        assignUser();
+        const newUserUid = item.item.uid;
+        assignUser(newUserUid);
       } else if (assignNewUserMail === user.email) {
         console.log(assignNewUserMail + " is your account");
         return;
       } else {
+        setUserExists(false);
+        console.log(userExists);
         console.log(assignNewUserMail + " doesn't exist");
       }
     });
   };
-  //   if (userExists) {
-  //     const docRef = doc(db, "todos", id);
-  //     await updateDoc(docRef, {
-  //       assignedTo: assignNewUserMail,
-  //     });
-  //     console.log("addUser: " + assignNewUserMail);
-  //     setUserExists(false);
-  //   } else {
-  //     console.log(assignNewUserMail + " doesn't exist");
-  //   }
-  // };
+  const removeUser = async (id) => {
+    const docRef = doc(db, "todos", id);
+    await updateDoc(docRef, {
+      assignedTo: deleteField(),
+    });
+    setAssignNewUserMail("");
+    console.log("removeUser: " + assignNewUserMail);
+  };
 
   return (
     <>
@@ -212,6 +210,7 @@ export default function Todo({ user }) {
                         item={item}
                         id={id}
                         addUser={addUser}
+                        removeUser={removeUser}
                         editItem={editItem}
                         setAssignNewUserMail={setAssignNewUserMail}
                         assignNewUserMail={assignNewUserMail}

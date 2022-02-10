@@ -4,8 +4,9 @@ export default function Dropdown({
   user,
   item,
   id,
-  addUser,
   editItem,
+  addUser,
+  removeUser,
   assignNewUserMail,
   setAssignNewUserMail,
 }) {
@@ -21,7 +22,7 @@ export default function Dropdown({
       {showDrop ? (
         <div className="dropdown">
           {/* <button className="button--edit" onClick={() => editItem(id)}>
-            !
+            edit todo
           </button> */}
           {user.uid === item.item.owner ? (
             <>
@@ -34,6 +35,9 @@ export default function Dropdown({
                 className="button--edit"
                 onClick={() => addUser(assignNewUserMail, id)}>
                 +
+              </button>
+              <button className="button--delete" onClick={() => removeUser(id)}>
+                x
               </button>
             </>
           ) : (
