@@ -1,9 +1,9 @@
 import "./Toast.scss";
 
-export default function Toast({ userExists }) {
+export default function Toast({ toastMessage }) {
   return (
     <div className="toast">
-      <p>{userExists}</p>
+      <p>{toastMessage}</p>
     </div>
   );
 }

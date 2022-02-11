@@ -37,7 +37,7 @@ export default function Dropdown({
       </button>
       {showDrop ? (
         <div className="dropdown">
-          {showToast ? <Toast userExists={userExists} /> : <></>}
+          {showToast ? <Toast toastMessage={userExists} /> : <></>}
           {/* <button className="button--edit" onClick={() => editItem(id)}>
             edit todo
           </button> */}
@@ -46,7 +46,9 @@ export default function Dropdown({
               <input
                 placeholder="type in email"
                 value={assignNewUserMail}
-                onChange={(e) => setAssignNewUserMail(e.target.value)}
+                onChange={(e) =>
+                  setAssignNewUserMail(e.target.value.replace(/\s+/g, ""))
+                }
               />
               <button
                 onClick={() => {

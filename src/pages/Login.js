@@ -62,14 +62,16 @@ export default function Login({ setUser }) {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.replace(/\s+/g, ""))}
                 />
                 <label htmlFor="password">password:</label>
                 <input
                   type="password"
                   name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setPassword(e.target.value.replace(/\s+/g, ""))
+                  }
                 />
                 <button onClick={signup}>sign up</button>
                 <button
@@ -93,14 +95,16 @@ export default function Login({ setUser }) {
                   type="email"
                   name="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value.replace(/\s+/g, ""))}
                 />
                 <label htmlFor="password">password:</label>
                 <input
                   type="password"
                   name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setPassword(e.target.value.replace(/\s+/g, ""))
+                  }
                 />
                 <button onClick={login}>Login</button>
                 <button
