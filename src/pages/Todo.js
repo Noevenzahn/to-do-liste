@@ -47,12 +47,13 @@ export default function Todo({ user }) {
     // snapshot ist ein listener
     let owned;
     let assigned;
-    onSnapshot(q, (snapshot) => {
+    let unsubscribeAssigned = () => {};
+    const unsubscribeTodos = onSnapshot(q, (snapshot) => {
       owned = snapshot.docs.map((doc) => ({
         id: doc.id,
         item: doc.data(),
       }));
-      onSnapshot(q2, (snapshot) => {
+      unsubscribeAssigned = onSnapshot(q2, (snapshot) => {
         assigned = snapshot.docs.map((doc) => ({
           id: doc.id,
           item: doc.data(),
@@ -63,7 +64,7 @@ export default function Todo({ user }) {
         setList(all);
       });
     });
-    onSnapshot(q3, (snapshot) => {
+    const unsubscribeUsers = onSnapshot(q3, (snapshot) => {
       setAllUsers(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -71,6 +72,11 @@ export default function Todo({ user }) {
         }))
       );
     });
+    return () => {
+      unsubscribeTodos();
+      unsubscribeUsers();
+      unsubscribeAssigned();
+    };
   }, []);
 
   const submit = (e) => {
