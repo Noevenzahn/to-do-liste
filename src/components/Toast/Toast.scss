@@ -1,0 +1,19 @@
+.toast {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  max-width: 100%;
+  color: hsl(340, 40%, 90%);
+
+  padding: 7px 20px 9px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 10px;
+  background-color: hsl(340, 40%, 25%);
+
+  p {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+}

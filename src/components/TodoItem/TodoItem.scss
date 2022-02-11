@@ -1,0 +1,42 @@
+.box--todo {
+  padding: 10px 15px;
+  display: grid;
+  align-items: center;
+
+  p {
+    max-width: 50%;
+  }
+}
+.todo__group {
+  display: flex;
+  align-items: center;
+}
+.box__buttons {
+  position: relative;
+  margin-left: auto;
+}
+.shared {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 0;
+  font-weight: 700;
+  color: hsl(240, 15%, 35%);
+
+  span {
+    font-weight: 500;
+
+    &:not(:last-child)::after {
+      content: ",\00a0";
+    }
+  }
+}
+.doneState {
+  .button--done {
+    background-color: hsl(240, 15%, 35%);
+    outline: 3px solid hsl(240, 15%, 35%);
+  }
+  p {
+    text-decoration: line-through;
+    color: hsl(240, 15%, 35%);
+  }
+}

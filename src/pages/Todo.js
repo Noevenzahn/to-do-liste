@@ -17,7 +17,7 @@ import {
 
 import Nav from "../components/Nav";
 import TodoForm from "../components/TodoForm";
-import TodoItem from "../components/TodoItem";
+import TodoItem from "../components/TodoItem/TodoItem";
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
@@ -138,17 +138,19 @@ export default function Todo({ user }) {
       });
       setAssignNewUserMail("");
       console.log("addUser: " + assignNewUserMail);
-      // setUserExists("User exists");
+      setUserExists("added user");
       console.log(userExists);
     };
     allUsers.forEach((item) => {
       if (item.item.email === assignNewUserMail) {
         console.log(assignNewUserMail + " doesn't exist");
-        setUserExists("doesn't exist");
+        setUserExists(false);
         console.log(userExists);
       }
       if (assignNewUserMail === user.email) {
         console.log(assignNewUserMail + " is your account");
+        setUserExists("this is your account");
+        return;
       }
       if (
         item.item.email === assignNewUserMail &&
@@ -156,7 +158,11 @@ export default function Todo({ user }) {
       ) {
         const newUserUid = item.item.uid;
         assignUser(newUserUid);
+        return;
       }
+      console.log(assignNewUserMail + " doesn't exist");
+      setUserExists("user doesn't exist");
+      console.log(userExists);
     });
   };
   const removeUser = async (assignNewUserMail, id) => {
@@ -180,7 +186,6 @@ export default function Todo({ user }) {
     const foundEmail = found.item.email;
     return foundEmail;
   };
-
   return (
     <>
       <div className="App">
@@ -195,7 +200,6 @@ export default function Todo({ user }) {
             submit={submit}
             removeAll={removeAll}
           />
-
           <div>
             {list.map((item, key) => {
               return (
@@ -203,6 +207,7 @@ export default function Todo({ user }) {
                   key={key}
                   item={item}
                   user={user}
+                  userExists={userExists}
                   markAsDone={markAsDone}
                   addUser={addUser}
                   removeUser={removeUser}

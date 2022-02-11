@@ -1,10 +1,12 @@
-import Dropdown from "./Dropdown";
+import "./TodoItem.scss";
+import Dropdown from "../Dropdown/Dropdown";
 
 export default function TodoItem({
   item,
   user,
   markAsDone,
   addUser,
+  userExists,
   removeUser,
   editItem,
   assignNewUserMail,
@@ -29,6 +31,7 @@ export default function TodoItem({
             id={id}
             addUser={addUser}
             removeUser={removeUser}
+            userExists={userExists}
             editItem={editItem}
             setAssignNewUserMail={setAssignNewUserMail}
             assignNewUserMail={assignNewUserMail}

@@ -71,7 +71,16 @@ export default function Login({ setUser }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={signup}>signup</button>
+                <button onClick={signup}>sign up</button>
+                <button
+                  className="signup"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setRegisteredUser((state) => !state);
+                    console.log(registeredUser);
+                  }}>
+                  login
+                </button>
               </form>
             </>
           ) : (
@@ -101,7 +110,7 @@ export default function Login({ setUser }) {
                     setRegisteredUser((state) => !state);
                     console.log(registeredUser);
                   }}>
-                  Sign Up
+                  sign up
                 </button>
               </form>
             </>

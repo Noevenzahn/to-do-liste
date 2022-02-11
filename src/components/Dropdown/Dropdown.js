@@ -1,16 +1,29 @@
 import { useState } from "react";
+import "./Dropdown.scss";
+
+import Toast from "../Toast/Toast";
 
 export default function Dropdown({
   user,
   item,
   id,
   editItem,
+  userExists,
   addUser,
   removeUser,
   assignNewUserMail,
   setAssignNewUserMail,
 }) {
   const [showDrop, setShowDrop] = useState(false);
+  const [showToast, setShowToast] = useState();
+
+  const toast = () => {
+    console.log(userExists);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
 
   return (
     <>
@@ -24,6 +37,7 @@ export default function Dropdown({
       </button>
       {showDrop ? (
         <div className="dropdown">
+          {showToast ? <Toast userExists={userExists} /> : <></>}
           {/* <button className="button--edit" onClick={() => editItem(id)}>
             edit todo
           </button> */}
@@ -34,7 +48,11 @@ export default function Dropdown({
                 value={assignNewUserMail}
                 onChange={(e) => setAssignNewUserMail(e.target.value)}
               />
-              <button onClick={() => addUser(assignNewUserMail, id)}>
+              <button
+                onClick={() => {
+                  addUser(assignNewUserMail, id);
+                  toast();
+                }}>
                 add
               </button>
               <button onClick={() => removeUser(assignNewUserMail, id)}>
