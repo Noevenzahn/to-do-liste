@@ -11,11 +11,13 @@ import {
   updateDoc,
   serverTimestamp,
   where,
-  deleteField,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 
 import Nav from "../components/Nav";
-import Dropdown from "../components/Dropdown";
+import TodoForm from "../components/TodoForm";
+import TodoItem from "../components/TodoItem";
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
@@ -36,7 +38,7 @@ export default function Todo({ user }) {
   );
   const q2 = query(
     collection(db, "todos"),
-    where("assignedTo", "==", user.uid),
+    where("assignedTo", "array-contains", user.uid),
     orderBy("timestamp", "desc")
   );
   const q3 = query(collection(db, "users"));
@@ -90,6 +92,7 @@ export default function Todo({ user }) {
         date: date,
         done: false,
         owner: user.uid,
+        assignedTo: [],
         timestamp: serverTimestamp(),
       });
       setName("");
@@ -130,37 +133,52 @@ export default function Todo({ user }) {
     const assignUser = async (newUserUid) => {
       const docRef = doc(db, "todos", id);
       await updateDoc(docRef, {
-        assignedTo: newUserUid,
+        assignedTo: arrayUnion(newUserUid),
         ownerEmail: user.email,
       });
+      setAssignNewUserMail("");
       console.log("addUser: " + assignNewUserMail);
-      setUserExists(true);
+      // setUserExists("User exists");
       console.log(userExists);
     };
     allUsers.forEach((item) => {
+      if (item.item.email === assignNewUserMail) {
+        console.log(assignNewUserMail + " doesn't exist");
+        setUserExists("doesn't exist");
+        console.log(userExists);
+      }
+      if (assignNewUserMail === user.email) {
+        console.log(assignNewUserMail + " is your account");
+      }
       if (
         item.item.email === assignNewUserMail &&
         assignNewUserMail !== user.email
       ) {
         const newUserUid = item.item.uid;
         assignUser(newUserUid);
-      } else if (assignNewUserMail === user.email) {
-        console.log(assignNewUserMail + " is your account");
-        return;
-      } else {
-        setUserExists(false);
-        console.log(userExists);
-        console.log(assignNewUserMail + " doesn't exist");
       }
     });
   };
-  const removeUser = async (id) => {
-    const docRef = doc(db, "todos", id);
-    await updateDoc(docRef, {
-      assignedTo: deleteField(),
+  const removeUser = async (assignNewUserMail, id) => {
+    const removeNewUser = async (newUserUid) => {
+      const docRef = doc(db, "todos", id);
+      await updateDoc(docRef, {
+        assignedTo: arrayRemove(newUserUid),
+      });
+    };
+    allUsers.forEach((item) => {
+      if (item.item.email === assignNewUserMail) {
+        const newUserUid = item.item.uid;
+        removeNewUser(newUserUid);
+      }
     });
     setAssignNewUserMail("");
     console.log("removeUser: " + assignNewUserMail);
+  };
+  const findEmail = (uid) => {
+    const found = allUsers.find((user) => user.id === uid);
+    const foundEmail = found.item.email;
+    return foundEmail;
   };
 
   return (
@@ -168,70 +186,31 @@ export default function Todo({ user }) {
       <div className="App">
         <Nav user={user} />
         <main>
-          <form className="box">
-            <div className="input__group">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <button onClick={submit}>
-                {!editMode ? "Add To Do" : "Save Change"}
-              </button>
-              <button onClick={removeAll}>Clear List</button>
-            </div>
-          </form>
+          <TodoForm
+            name={name}
+            setName={setName}
+            date={date}
+            setDate={setDate}
+            editMode={editMode}
+            submit={submit}
+            removeAll={removeAll}
+          />
 
           <div>
             {list.map((item) => {
-              const { id } = item;
-              const { done, todo, date, owner, ownerEmail, assignedTo } =
-                item.item;
               return (
-                <div
-                  className={done ? "doneState box box--todo" : "box box--todo"}
-                  key={id}>
-                  <div className="todo__group">
-                    <button
-                      className="button--done"
-                      onClick={() => markAsDone(id)}></button>
-                    <p>{todo}</p>
-                    <div className="box__buttons">
-                      <span className="date">{date}</span>
-                      <Dropdown
-                        user={user}
-                        item={item}
-                        id={id}
-                        addUser={addUser}
-                        removeUser={removeUser}
-                        editItem={editItem}
-                        setAssignNewUserMail={setAssignNewUserMail}
-                        assignNewUserMail={assignNewUserMail}
-                      />
-                      <button
-                        className="button--delete"
-                        onClick={() => remove(id)}>
-                        r
-                      </button>
-                    </div>
-                  </div>
-                  {assignedTo ? (
-                    user.uid === owner ? (
-                      <span className="shared">shared with: {assignedTo}</span>
-                    ) : (
-                      <span className="shared">shared from: {ownerEmail}</span>
-                    )
-                  ) : (
-                    ""
-                  )}
-                </div>
+                <TodoItem
+                  item={item}
+                  user={user}
+                  markAsDone={markAsDone}
+                  addUser={addUser}
+                  removeUser={removeUser}
+                  editItem={editItem}
+                  assignNewUserMail={assignNewUserMail}
+                  setAssignNewUserMail={setAssignNewUserMail}
+                  remove={remove}
+                  findEmail={findEmail}
+                />
               );
             })}
           </div>

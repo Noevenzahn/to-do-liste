@@ -66,7 +66,7 @@ main {
   }
 }
 .box--todo {
-  padding: 10px 0 10px 15px;
+  padding: 10px 15px;
   display: grid;
   align-items: center;
 
@@ -88,9 +88,19 @@ main {
   color: hsl(240, 15%, 35%);
 }
 .shared {
+  display: flex;
+  flex-wrap: wrap;
   margin: 5px 0;
-  font-weight: 500;
+  font-weight: 700;
   color: hsl(240, 15%, 35%);
+
+  span {
+    font-weight: 500;
+
+    &:not(:last-child)::after {
+      content: ",\00a0";
+    }
+  }
 }
 .doneState {
   .button--done {
@@ -136,6 +146,9 @@ button {
 
   &:hover {
     background-color: hsl(240, 15%, 30%);
+  }
+  &:last-child {
+    margin: 0;
   }
 }
 .button--edit {
