@@ -197,9 +197,10 @@ export default function Todo({ user }) {
           />
 
           <div>
-            {list.map((item) => {
+            {list.map((item, key) => {
               return (
                 <TodoItem
+                  key={key}
                   item={item}
                   user={user}
                   markAsDone={markAsDone}

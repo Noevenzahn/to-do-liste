@@ -15,9 +15,7 @@ export default function TodoItem({
   const { id } = item;
   const { done, todo, date, owner, ownerEmail, assignedTo } = item.item;
   return (
-    <div
-      className={done ? "doneState box box--todo" : "box box--todo"}
-      key={id}>
+    <div className={done ? "doneState box box--todo" : "box box--todo"}>
       <div className="todo__group">
         <button
           className="button--done"
