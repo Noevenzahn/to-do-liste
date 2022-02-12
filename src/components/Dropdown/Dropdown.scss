@@ -7,7 +7,7 @@
   align-items: center;
   padding: 15px;
   border-radius: 10px;
-  background-color: hsl(240, 18%, 20%);
+  background-color: var(--color-500);
   box-sizing: border-box;
 
   input {
@@ -15,5 +15,6 @@
   }
   button {
     margin: 0 0 0 10px;
+    padding: 10px;
   }
 }

@@ -7,7 +7,7 @@ nav {
   left: 0;
   width: 100%;
   padding: 10px 30px;
-  background-color: hsl(240, 15%, 20%);
+  background-color: var(--color-500);
   box-sizing: border-box;
 }
 .login__form {
@@ -15,7 +15,7 @@ nav {
   margin-bottom: 20px;
   padding: 30px;
   border-radius: 10px;
-  background-color: hsl(240, 18%, 15%);
+  background-color: var(--color-600);
   box-sizing: border-box;
   p {
     font-size: 27px;
@@ -28,19 +28,19 @@ nav {
   label {
     margin: 5px 0 7px 3px;
     font-weight: 500;
-    color: hsl(240, 15%, 55%);
+    color: var(--color-600);
   }
   .signup {
     margin: 0;
     padding: 0;
     font-size: 14px;
     background-color: transparent;
-    color: hsl(240, 15%, 55%);
+    color: var(--color-600);
     text-decoration: underline;
     transition: color 200ms ease-in-out;
 
     &:hover {
-      color: hsl(240, 15%, 35%);
+      color: var(--color-500);
     }
   }
 }
@@ -57,19 +57,62 @@ main {
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
-  background-color: hsl(240, 18%, 15%);
+  background-color: var(--color-600);
   box-sizing: border-box;
   transition: background-color 200ms ease-in-out;
 
   &:hover {
-    background-color: hsl(240, 18%, 20%);
+    background-color: var(--color-500);
   }
 }
+.box--todo {
+  padding: 10px 15px;
+  display: grid;
+  align-items: center;
 
+  p {
+    max-width: 50%;
+  }
+}
+.todo__group {
+  display: flex;
+  align-items: center;
+}
+.box__buttons {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: auto;
+}
 .date {
   margin-right: 20px;
   font-weight: 700;
-  color: hsl(240, 15%, 35%);
+  color: var(--color-300);
+}
+.shared {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 0;
+  font-weight: 700;
+  color: var(--color-500);
+
+  span {
+    font-weight: 500;
+
+    &:not(:last-child)::after {
+      content: ",\00a0";
+    }
+  }
+}
+.doneState {
+  .button--done {
+    background-color: var(--color-500);
+    outline: 3px solid var(--color-500);
+  }
+  p {
+    text-decoration: line-through;
+    color: var(--color-500);
+  }
 }
 form {
   display: grid;
@@ -79,7 +122,7 @@ input {
   color: #fff;
   margin-bottom: 10px;
   padding: 7px 20px 9px 20px;
-  background-color: hsl(240, 15%, 25%);
+  background-color: var(--color-400);
   border: none;
   border-radius: 10px;
 }
@@ -97,14 +140,14 @@ button {
   color: #fff;
   margin-right: 15px;
   padding: 7px 20px 9px 20px;
-  background-color: hsl(240, 15%, 35%);
+  background-color: var(--color-300);
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 200ms ease-in-out;
 
   &:hover {
-    background-color: hsl(240, 15%, 30%);
+    background-color: var(--color-400);
   }
   &:last-child {
     margin: 0;
@@ -116,12 +159,31 @@ button {
   width: 40px;
   padding: 0;
 }
+.dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: var(--color-500);
+  box-sizing: border-box;
+
+  input {
+    margin: 0;
+  }
+  button {
+    margin: 0 0 0 10px;
+  }
+}
 .button--delete {
   position: relative;
   height: 40px;
   width: 40px;
   padding: 0;
-  background-color: hsl(240, 15%, 25%);
+  background-color: var(--color-400);
 
   &:hover {
     background-color: hsl(340, 40%, 25%);
@@ -143,10 +205,10 @@ button {
   height: 30px;
   width: 30px;
   background-color: transparent;
-  outline: 3px solid hsl(240, 15%, 35%);
-  border: 6px solid hsl(240, 18%, 15%);
+  outline: 3px solid var(--color-300);
+  border: 6px solid var(--color-600);
 
   &:hover {
-    background-color: hsl(240, 15%, 35%);
+    background-color: var(--color-300);
   }
 }

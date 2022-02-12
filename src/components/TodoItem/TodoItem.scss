@@ -3,8 +3,19 @@
   display: grid;
   align-items: center;
 
-  p {
+  p,
+  a {
     max-width: 50%;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+  }
+  input {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    outline: none;
+    word-break: break-word;
   }
 }
 .todo__group {
@@ -12,15 +23,25 @@
   align-items: center;
 }
 .box__buttons {
+  display: flex;
   position: relative;
+  max-height: 40px;
   margin-left: auto;
+
+  button {
+    display: grid;
+    place-items: center;
+  }
+  img {
+    transform: scale(55%);
+  }
 }
 .shared {
   display: flex;
   flex-wrap: wrap;
   margin: 5px 0;
   font-weight: 700;
-  color: hsl(240, 15%, 35%);
+  color: var(--color-300);
 
   span {
     font-weight: 500;
@@ -32,11 +53,11 @@
 }
 .doneState {
   .button--done {
-    background-color: hsl(240, 15%, 35%);
-    outline: 3px solid hsl(240, 15%, 35%);
+    background-color: var(--color-300);
+    outline: 3px solid var(--color-300);
   }
   p {
     text-decoration: line-through;
-    color: hsl(240, 15%, 35%);
+    color: var(--color-300);
   }
 }
