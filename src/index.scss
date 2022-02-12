@@ -3,19 +3,34 @@
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
 
+  --color-000: hsl(0, 0%, 100%);
   --color-100: hsl(240, 15%, 55%);
-  --color-200: hsl(240, 15%, 35%);
-  --color-300: hsl(240, 15%, 30%);
+  --color-200: hsl(240, 15%, 45%);
+  --color-300: hsl(240, 15%, 35%);
   --color-400: hsl(240, 15%, 25%);
   --color-500: hsl(240, 15%, 20%);
   --color-600: hsl(240, 15%, 15%);
+  --background: hsl(240, 15%, 10%);
 }
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-000: hsl(245, 100%, 100%);
+    --color-100: hsl(245, 100%, 45%);
+    --color-200: hsl(245, 100%, 55%);
+    --color-300: hsl(245, 100%, 65%);
+    --color-400: hsl(245, 100%, 70%);
+    --color-500: hsl(245, 100%, 75%);
+    --color-600: hsl(245, 100%, 85%);
+    --background: hsl(245, 100%, 90%);
+  }
+}
+
 body {
   display: flex;
   justify-content: center;
   margin: 0;
   padding: 30px;
-  background-color: hsl(240, 18%, 12%);
+  background-color: var(--background);
   color: #fff;
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;

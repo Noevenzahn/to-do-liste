@@ -65,61 +65,17 @@ main {
     background-color: var(--color-500);
   }
 }
-.box--todo {
-  padding: 10px 15px;
-  display: grid;
-  align-items: center;
-
-  p {
-    max-width: 50%;
-  }
-}
-.todo__group {
-  display: flex;
-  align-items: center;
-}
-.box__buttons {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-left: auto;
-}
 .date {
   margin-right: 20px;
   font-weight: 700;
-  color: var(--color-300);
-}
-.shared {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 5px 0;
-  font-weight: 700;
-  color: var(--color-500);
-
-  span {
-    font-weight: 500;
-
-    &:not(:last-child)::after {
-      content: ",\00a0";
-    }
-  }
-}
-.doneState {
-  .button--done {
-    background-color: var(--color-500);
-    outline: 3px solid var(--color-500);
-  }
-  p {
-    text-decoration: line-through;
-    color: var(--color-500);
-  }
+  color: var(--color-200);
 }
 form {
   display: grid;
 }
 input {
   font-size: 18px;
-  color: #fff;
+  color: var(--color-000);
   margin-bottom: 10px;
   padding: 7px 20px 9px 20px;
   background-color: var(--color-400);
@@ -137,7 +93,7 @@ input {
 button {
   font-size: 18px;
   font-weight: 500;
-  color: #fff;
+  color: var(--color-000);
   margin-right: 15px;
   padding: 7px 20px 9px 20px;
   background-color: var(--color-300);
@@ -158,25 +114,6 @@ button {
   height: 40px;
   width: 40px;
   padding: 0;
-}
-.dropdown {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  border-radius: 10px;
-  background-color: var(--color-500);
-  box-sizing: border-box;
-
-  input {
-    margin: 0;
-  }
-  button {
-    margin: 0 0 0 10px;
-  }
 }
 .button--delete {
   position: relative;
@@ -199,16 +136,4 @@ button {
   //   width: 25px;
   //   height: 25px;
   // }
-}
-.button--done {
-  padding: 0;
-  height: 30px;
-  width: 30px;
-  background-color: transparent;
-  outline: 3px solid var(--color-300);
-  border: 6px solid var(--color-600);
-
-  &:hover {
-    background-color: var(--color-300);
-  }
 }
