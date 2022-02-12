@@ -35,9 +35,6 @@ export default function Dropdown({
       {showDrop ? (
         <div className="dropdown">
           {showToast ? <Toast toastMessage={userExists} /> : <></>}
-          {/* <button className="button--edit" onClick={() => editItem(id)}>
-            edit todo
-          </button> */}
           {user.uid === item.item.owner ? (
             <>
               <input
