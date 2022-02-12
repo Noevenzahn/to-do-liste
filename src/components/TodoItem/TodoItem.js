@@ -36,31 +36,34 @@ export default function TodoItem({
           className="button--done"
           onClick={() => markAsDone(id)}></button>
         {!edit ? (
-          <form onSubmit={(e) => submitEdit(e)}>
-            <input
-              value={todo}
-              ref={todoInput}
-              onClick={(e) => {
-                e.preventDefault();
-                setEdit((state) => !state);
-                setName(todo);
-                setEditMode(true);
-                todoInput.current.focus();
-              }}
-              readOnly
-            />
-          </form>
+          <input
+            value={todo}
+            onClick={(e) => {
+              e.preventDefault();
+              setEdit((state) => !state);
+              setName(todo);
+              setEditMode(true);
+              todoInput.current?.focus();
+            }}
+            readOnly
+          />
         ) : (
-          <form onSubmit={(e) => submitEdit(e)}>
-            <input
-              value={name}
-              ref={todoInput}
-              onChange={(e) => {
-                editItem(id);
-                setName(e.target.value);
-              }}
-            />
-          </form>
+          <input
+            value={name}
+            ref={todoInput}
+            onChange={(e) => {
+              editItem(id);
+              setName(e.target.value);
+            }}
+            onBlur={(e) => {
+              if (name === todo) {
+                setEdit((state) => !state);
+
+                return;
+              }
+              submitEdit(e);
+            }}
+          />
         )}
         <div className="box__buttons">
           <span className="date">{date}</span>

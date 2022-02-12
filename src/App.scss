@@ -28,19 +28,19 @@ nav {
   label {
     margin: 5px 0 7px 3px;
     font-weight: 500;
-    color: var(--color-600);
+    color: var(--color-100);
   }
   .signup {
     margin: 0;
     padding: 0;
     font-size: 14px;
     background-color: transparent;
-    color: var(--color-600);
+    color: var(--color-100);
     text-decoration: underline;
     transition: color 200ms ease-in-out;
 
     &:hover {
-      color: var(--color-500);
+      color: var(--color-200);
     }
   }
 }
