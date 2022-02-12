@@ -1,19 +1,32 @@
 import "./TodoItem.scss";
 import Dropdown from "../Dropdown/Dropdown";
+import { useState, useRef, useEffect } from "react";
 
 export default function TodoItem({
   item,
   user,
+  name,
+  setName,
   markAsDone,
   addUser,
   userExists,
   removeUser,
   editItem,
+  setEditMode,
   assignNewUserMail,
   setAssignNewUserMail,
   remove,
   findEmail,
+  submit,
 }) {
+  const [edit, setEdit] = useState(false);
+  const todoInput = useRef(null);
+
+  const submitEdit = (e) => {
+    submit(e);
+    setEdit((state) => !state);
+    todoInput.current.blur();
+  };
   const { id } = item;
   const { done, todo, date, owner, ownerEmail, assignedTo } = item.item;
   return (
@@ -22,7 +35,33 @@ export default function TodoItem({
         <button
           className="button--done"
           onClick={() => markAsDone(id)}></button>
-        <p>{todo}</p>
+        {!edit ? (
+          <form onSubmit={(e) => submitEdit(e)}>
+            <input
+              value={todo}
+              ref={todoInput}
+              onClick={(e) => {
+                e.preventDefault();
+                setEdit((state) => !state);
+                setName(todo);
+                setEditMode(true);
+                todoInput.current.focus();
+              }}
+              readOnly
+            />
+          </form>
+        ) : (
+          <form onSubmit={(e) => submitEdit(e)}>
+            <input
+              value={name}
+              ref={todoInput}
+              onChange={(e) => {
+                editItem(id);
+                setName(e.target.value);
+              }}
+            />
+          </form>
+        )}
         <div className="box__buttons">
           <span className="date">{date}</span>
           <Dropdown
@@ -37,10 +76,7 @@ export default function TodoItem({
             assignNewUserMail={assignNewUserMail}
           />
           <button className="button--delete" onClick={() => remove(id)}>
-            <img
-              alt=""
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAABfElEQVR4nO3bO27CUBQEUJQCsvLAelKgbCifXUwaFwgZMPb7GDhHcu3rGetJWNzNBgAAAAAAAAAAAOAxJdkmOST5Ha5Dkl3HeXYj82x7zVPd8IDnjj1KGMI/jsyzbz1LM8NbNuYryXvDObZJPi/M8tdqjuauFNCshBvhJ8l37Rm6SbK/8uBJ5eMol4+dUx+17t/dxACqlNDz3quS20dAUvg46nHPVWsZiPAvaBGM8G+oGZDwJ6oRlPDvVDIw4c9UIjjhL7QkQOEXMidI4Rd2T6DCryTTPx34vFDLxLfbm1/TghKEX8qMEoRf2h0lPFT4b70H4AE4gjqaEb4SSlkQvhKWih9i/Ux8832KqGFOoEooZEmQSlioRIBKmKlkcEq4U43AlDBRzaCUcEOLgJRwQctglHCmRyBKGMTf0/vK+I5YswAmlvCSO2LJelaUXnJHbE1Lei+3I7a2NdWn3hHbDiX8DNe+R/gn8+xG5nneRW0AAAAAAAAAAADg2f0DN4io/jimluoAAAAASUVORK5CYII="
-            />
+            <img alt="" src="remove.svg" />
           </button>
         </div>
       </div>

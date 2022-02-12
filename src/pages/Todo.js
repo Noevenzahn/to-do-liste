@@ -16,8 +16,8 @@ import {
 } from "firebase/firestore";
 
 import Nav from "../components/Nav";
-import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem/TodoItem";
+import TodoForm from "../components/TodoForm";
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
@@ -44,11 +44,10 @@ export default function Todo({ user }) {
   const q3 = query(collection(db, "users"));
 
   useEffect(() => {
-    // snapshot ist ein listener
     let owned;
     let assigned;
     let unsubscribeAssigned = () => {};
-    const unsubscribeTodos = onSnapshot(q, (snapshot) => {
+    const unsubscribeTodo = onSnapshot(q, (snapshot) => {
       owned = snapshot.docs.map((doc) => ({
         id: doc.id,
         item: doc.data(),
@@ -72,10 +71,11 @@ export default function Todo({ user }) {
         }))
       );
     });
+
     return () => {
-      unsubscribeTodos();
-      unsubscribeUsers();
+      unsubscribeTodo();
       unsubscribeAssigned();
+      unsubscribeUsers();
     };
   }, []);
 
@@ -144,7 +144,7 @@ export default function Todo({ user }) {
       });
       setAssignNewUserMail("");
       console.log("addUser: " + assignNewUserMail);
-      setUserExists("added user");
+      setUserExists(true);
       console.log(userExists);
     };
     allUsers.forEach((item) => {
@@ -192,6 +192,7 @@ export default function Todo({ user }) {
     const foundEmail = found.item.email;
     return foundEmail;
   };
+
   return (
     <>
       <div className="App">
@@ -213,15 +214,19 @@ export default function Todo({ user }) {
                   key={key}
                   item={item}
                   user={user}
-                  userExists={userExists}
+                  name={name}
+                  setName={setName}
                   markAsDone={markAsDone}
                   addUser={addUser}
+                  userExists={userExists}
                   removeUser={removeUser}
                   editItem={editItem}
+                  setEditMode={setEditMode}
                   assignNewUserMail={assignNewUserMail}
                   setAssignNewUserMail={setAssignNewUserMail}
                   remove={remove}
                   findEmail={findEmail}
+                  submit={submit}
                 />
               );
             })}

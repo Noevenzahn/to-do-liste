@@ -11,11 +11,20 @@ export default function TodoForm({
     <>
       <form className="box">
         <div className="input__group">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          {editMode ? (
+            <input
+              type="text"
+              value={""}
+              onChange={(e) => setName(e.target.value)}
+            />
+          ) : (
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          )}
+
           <input
             type="date"
             value={date}
@@ -23,9 +32,7 @@ export default function TodoForm({
           />
         </div>
         <div>
-          <button onClick={submit}>
-            {!editMode ? "Add To Do" : "Save Change"}
-          </button>
+          <button onClick={submit}>Add To Do</button>
           <button onClick={removeAll}>Clear List</button>
         </div>
       </form>

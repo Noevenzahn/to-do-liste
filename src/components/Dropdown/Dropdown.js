@@ -30,10 +30,7 @@ export default function Dropdown({
       <button
         className="button--edit"
         onClick={() => setShowDrop((state) => !state)}>
-        <img
-          alt=""
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABeCAYAAACq0qNuAAAABmJLR0QA/wD/AP+gvaeTAAABcUlEQVR4nO3aPU4CYRSF4XONO/Cnk5ZY0oB70cSlKRjXYmQHttr5s4ZjIYlGpwHn4wTmfcqvuHPzZiBTfBIAAAAAAAAAAAAAYFOVXmATtkvSTJKr6jG9z2DYvvO3eXqfQbA98l9n6b3WdZBeYANHHWfHW9/in3Yx/F4gfAjhQwgfQvgQwocQPoTwIYQPIXwI4UMIH0L4EMKHED6E8CGEDyF8COFDCB9y2Gqw7ZGkkwajxx1n57ZbvERvVfXcYG7/F5pWl40Wkq76nh2yqKrrvoe2CH8h6aHvuWGzqlr2ObDFz9MNZu6dFuGX+vqr2Re3fb/tUsNLq6trdacNRo8l3f86u5T01OBZr1X10mDu7rE96bg7OUnvtS6+40MIH0L4EMKHED6E8CGEDyF8COFDCB9C+BDChxA+hPAhhA8hfAjhQwgfQvgQwofsYviPjrP3rW8xRLbnP24Y3KT3GRTbU9vT9B4AAAAAAAAAAAAAgO37BElydcftIt94AAAAAElFTkSuQmCC"
-        />
+        <img alt="" src="user.svg" />
       </button>
       {showDrop ? (
         <div className="dropdown">
