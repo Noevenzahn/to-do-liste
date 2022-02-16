@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./Dropdown.scss";
 
 import Toast from "../Toast/Toast";
@@ -15,15 +15,7 @@ export default function Dropdown({
   setAssignNewUserMail,
 }) {
   const [showDrop, setShowDrop] = useState(false);
-  const [showToast, setShowToast] = useState();
-
-  const toast = () => {
-    console.log(userExists);
-    setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
+  const toastRef = useRef(null);
 
   return (
     <>
@@ -34,7 +26,11 @@ export default function Dropdown({
       </button>
       {showDrop ? (
         <div className="dropdown">
-          {showToast ? <Toast toastMessage={userExists} /> : <></>}
+          <Toast
+            ref={toastRef}
+            message={"Task Completed Successfully!"}
+            type={"success"}
+          />
           {user.uid === item.item.owner ? (
             <>
               <input
@@ -47,7 +43,8 @@ export default function Dropdown({
               <button
                 onClick={() => {
                   addUser(assignNewUserMail, id);
-                  toast();
+                  // toast();
+                  toastRef.current.show();
                 }}>
                 add
               </button>
