@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { db } from "../firebase";
 import {
   collection,
@@ -18,6 +18,7 @@ import {
 import Nav from "../components/Nav";
 import TodoItem from "../components/TodoItem/TodoItem";
 import TodoForm from "../components/TodoForm";
+import Toast from "../components/Toast/Toast"
 
 export default function Todo({ user }) {
   const [name, setName] = useState("");
@@ -28,6 +29,8 @@ export default function Todo({ user }) {
   const [editId, setEditId] = useState("");
   const [assignNewUserMail, setAssignNewUserMail] = useState("");
   const [userExists, setUserExists] = useState();
+
+  const toastRef = useRef(null);
 
   const CollectionRef = collection(db, "todos");
 
@@ -136,6 +139,8 @@ export default function Todo({ user }) {
     setDate(list[index].item.date);
   };
   const addUser = async (assignNewUserMail, id) => {
+    if (!assignNewUserMail) return
+    
     const assignUser = async (newUserUid) => {
       const docRef = doc(db, "todos", id);
       await updateDoc(docRef, {
@@ -144,12 +149,15 @@ export default function Todo({ user }) {
       });
       setAssignNewUserMail("");
       console.log("addUser: " + assignNewUserMail);
+      toastRef.current.show(`added ${assignNewUserMail}`, "success");
       setUserExists(true);
       console.log(userExists);
     };
     allUsers.forEach((item) => {
       if (item.item.email === assignNewUserMail) {
         console.log(assignNewUserMail + " doesn't exist");
+        toastRef.current.show(`${assignNewUserMail} doesn't exist`, "error");
+
         setUserExists(false);
         console.log(userExists);
       }
@@ -168,6 +176,8 @@ export default function Todo({ user }) {
       }
       console.log(assignNewUserMail + " doesn't exist");
       setUserExists("user doesn't exist");
+      toastRef.current.show(`${assignNewUserMail} doesn't exist`, "error");
+
       console.log(userExists);
     });
   };
@@ -186,6 +196,8 @@ export default function Todo({ user }) {
     });
     setAssignNewUserMail("");
     console.log("removeUser: " + assignNewUserMail);
+    toastRef.current.show(`${assignNewUserMail} was removed`, "success");
+
   };
   const findEmail = (uid) => {
     const found = allUsers.find((user) => user.id === uid);
@@ -196,6 +208,8 @@ export default function Todo({ user }) {
   return (
     <>
       <div className="App">
+        <Toast ref={toastRef} />
+
         <Nav user={user} />
         <main>
           <TodoForm

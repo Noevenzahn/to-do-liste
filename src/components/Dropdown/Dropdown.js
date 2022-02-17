@@ -15,7 +15,6 @@ export default function Dropdown({
   setAssignNewUserMail,
 }) {
   const [showDrop, setShowDrop] = useState(false);
-  const toastRef = useRef(null);
 
   return (
     <>
@@ -26,11 +25,6 @@ export default function Dropdown({
       </button>
       {showDrop ? (
         <div className="dropdown">
-          <Toast
-            ref={toastRef}
-            message={"Task Completed Successfully!"}
-            type={"success"}
-          />
           {user.uid === item.item.owner ? (
             <>
               <input
@@ -43,8 +37,6 @@ export default function Dropdown({
               <button
                 onClick={() => {
                   addUser(assignNewUserMail, id);
-                  // toast();
-                  toastRef.current.show();
                 }}>
                 add
               </button>

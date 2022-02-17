@@ -1,32 +1,37 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
 import "./Toast.scss";
 
-const Snackbar = forwardRef((props, ref) => {
-  const [showSnackbar, setShowSnackbar] = useState(false);
+const Toast = forwardRef((props, ref) => {
+  const [showToast, setShowToast] = useState(false);
+  const [message, setMessage] = useState();
+  const [type, setType] = useState();
 
   useImperativeHandle(ref, () => ({
-    show() {
-      setShowSnackbar(true);
+    show(message, type) {
+      setMessage(message);
+      setType(type);
+      setShowToast(true);
       setTimeout(() => {
-        setShowSnackbar(false);
-      }, 3000);
+        setShowToast(false);
+      }, 2000);
     },
   }));
+
   return (
     <div
       className="snackbar"
-      id={showSnackbar ? "show" : "hide"}
+      id={showToast ? "show" : "hide"}
       style={{
-        backgroundColor: props.type === "success" ? "#00F593" : "#FF0033",
-        color: props.type === "success" ? "black" : "white",
+        backgroundColor: type === "success" ? "#00F593" : "#FF0033",
+        color: type === "success" ? "black" : "white",
       }}
     >
       <div className="symbol">
-        {props.type === "success" ? <h1>&#x2713;</h1> : <h1>&#x2613;</h1>}
+        {type === "success" ? <h1>&#x2713;</h1> : <h1>&#x2613;</h1>}
       </div>
-      <div className="message">{props.message}</div>
+      <div className="message">{message}</div>
     </div>
   );
 });
 
-export default Snackbar;
+export default Toast;

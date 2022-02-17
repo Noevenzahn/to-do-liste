@@ -20,8 +20,8 @@
 
 .snackbar {
   position: fixed;
-  left: 50%;
-  top: 5%;
+  right: 2%;
+  bottom: 5%;
   transform: translate(-50%, -50%);
   width: 350px;
   height: 60px;
@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   text-align: center;
+  z-index: 1;
   
   .symbol {
     flex: 20%;
@@ -44,7 +45,7 @@
 
 #show {
   visibility: visible;
-  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+  animation: fadeIn 0.5s, fadeOut 0.5s 1.75s;
 }
 #hide {
   visibility: hidden;
@@ -52,22 +53,22 @@
 
 @keyframes fadeIn {
   from {
-    bottom: 0;
+    // bottom: 0;
     opacity: 0;
   }
   to {
-    bottom: 30px;
+    // bottom: 30px;
     opacity: 1;
   }
 }
 
 @keyframes fadeOut {
   from {
-    bottom: 30px;
+    // bottom: 30px;
     opacity: 1;
   }
   to {
-    bottom: 0;
+    // bottom: 0;
     opacity: 0;
   }
 }
