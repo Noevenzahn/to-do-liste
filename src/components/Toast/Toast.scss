@@ -1,53 +1,29 @@
 .toast {
-  position: absolute;
-  top: 75px;
-  left: 0;
-  max-width: 100%;
-  color: hsl(340, 40%, 90%);
-
-  padding: 7px 20px 9px 20px;
-  font-size: 18px;
-  font-weight: 500;
-  border-radius: 10px;
-  background-color: hsl(340, 40%, 25%);
-
-  p {
-    display: block;
-    width: 100%;
-    max-width: 100% !important;
-  }
-}
-
-.snackbar {
   position: fixed;
-  right: 2%;
-  bottom: 5%;
-  transform: translate(-50%, -50%);
-  width: 350px;
-  height: 60px;
-  border-radius: 8px;
+  right: 2.5%;
+  bottom: 3%;
+  padding: 20px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   text-align: center;
   z-index: 1;
-  
+
   .symbol {
     flex: 20%;
   }
   .message {
     flex: 80%;
     text-align: start;
-    font-weight: bold;
+    font-weight: 500;
   }
 }
 
-
-
-#show {
+.show {
   visibility: visible;
-  animation: fadeIn 0.5s, fadeOut 0.5s 1.75s;
+  animation: fadeIn 0.25s, fadeOut 0.25s 1.75s;
 }
-#hide {
+.hide {
   visibility: hidden;
 }
 
