@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "./Dropdown.scss";
 
-import Toast from "../Toast/Toast";
 
 export default function Dropdown({
   user,
