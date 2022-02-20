@@ -34,8 +34,10 @@
     display: grid;
     place-items: center;
   }
-  img {
-    transform: scale(55%);
+  .icon {
+    fill: var(--color-000);
+    transform: scale(70%);
+    transition: fill 250ms ease-in-out;
   }
 }
 .button--done {
@@ -73,5 +75,8 @@
   input {
     text-decoration: line-through;
     color: var(--color-300);
+  }
+  .icon {
+    fill: var(--color-100);
   }
 }

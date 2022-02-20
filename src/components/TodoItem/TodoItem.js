@@ -1,6 +1,7 @@
 import "./TodoItem.scss";
 import Dropdown from "../Dropdown/Dropdown";
 import { useState, useRef } from "react";
+import { ReactComponent as RemoveIcon } from "../../assets/remove.svg";
 
 export default function TodoItem({
   item,
@@ -79,7 +80,7 @@ export default function TodoItem({
             assignNewUserMail={assignNewUserMail}
           />
           <button className="button--delete" onClick={() => remove(id)}>
-            <img alt="" src="remove.svg" />
+            <RemoveIcon className="icon" />
           </button>
         </div>
       </div>

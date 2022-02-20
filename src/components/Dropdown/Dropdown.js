@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Dropdown.scss";
 
+import { ReactComponent as UserIcon } from "../../assets/user.svg";
+
+
 
 export default function Dropdown({
   user,
@@ -20,7 +23,7 @@ export default function Dropdown({
       <button
         className="button--edit"
         onClick={() => setShowDrop((state) => !state)}>
-        <img alt="" src="user.svg" />
+        <UserIcon className="icon" />
       </button>
       {showDrop ? (
         <div className="dropdown">
