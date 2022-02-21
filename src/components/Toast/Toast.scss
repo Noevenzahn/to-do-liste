@@ -29,22 +29,18 @@
 
 @keyframes fadeIn {
   from {
-    // bottom: 0;
     opacity: 0;
   }
   to {
-    // bottom: 30px;
     opacity: 1;
   }
 }
 
 @keyframes fadeOut {
   from {
-    // bottom: 30px;
     opacity: 1;
   }
   to {
-    // bottom: 0;
     opacity: 0;
   }
 }
