@@ -26,9 +26,6 @@ const Toast = forwardRef((props, ref) => {
         backgroundColor: type === "success" ? "hsl(155, 40%, 20%)" : "hsl(340, 40%, 25%)",
       }}
     >
-      {/* <div className="symbol">
-        {type === "success" ? <h1>&#x2713;</h1> : <h1>&#x2613;</h1>}
-      </div> */}
       <div className="message">{message}</div>
     </div>
   );
