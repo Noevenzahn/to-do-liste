@@ -1,3 +1,5 @@
+import { getTodaysDate } from "../utilities/helpers";
+
 export default function TodoForm({
   name,
   setName,
@@ -27,7 +29,7 @@ export default function TodoForm({
 
           <input
             type="date"
-            value={date}
+            value={date ? date : getTodaysDate()}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
