@@ -1,4 +1,6 @@
-import LogoutButton from "./LogoutButton";
+import "./Nav.scss";
+
+import LogoutButton from "../LogoutButton";
 
 export default function Nav({ user }) {
   return (

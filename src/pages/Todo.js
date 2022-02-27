@@ -15,7 +15,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 
-import Nav from "../components/Nav";
+import Nav from "../components/Nav/Nav";
 import TodoItem from "../components/TodoItem/TodoItem";
 import TodoForm from "../components/TodoForm";
 import Toast from "../components/Toast/Toast"
