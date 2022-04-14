@@ -1,5 +1,6 @@
 # To do React App with Firestore and Firebase Auth
 This Project is my first fullstack application. 
+I created it during my internship at a local software company. 
 
 ### Some of its features:
 - Email and password login
